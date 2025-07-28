@@ -1,16 +1,89 @@
 package ru.netology
 
+abstract class Attachment {
+    abstract val type: String
+}
+
+data class PhotoAttachment(
+    val photo: Photo
+): Attachment() {
+    override val type = "Photo"
+}
+
+data class VideoAttachment(
+    val video: Video
+) : Attachment() {
+    override val type = "video"
+}
+
+data class AudioAttachment(
+    val audio: Audio
+) : Attachment() {
+    override val type = "audio"
+}
+
+data class LinkAttachment(
+    val link: Link
+): Attachment() {
+    override val type = "link"
+}
+
+data class DocAttachment(
+    val doc: Doc
+): Attachment() {
+    override val type = "Doc"
+}
+
+data class Photo(
+    val id: Int,
+    val ownerId: Int,
+    val photo130: Int,
+    val photo604: Int,
+)
+
+data class Video(
+    val id: Int,
+    val ownerId: Int,
+    val title: String,
+    val duration: Int,
+)
+
+data class Audio(
+    val id: Int,
+    val ownerId: Int,
+    val artist: String,
+    val title: String,
+    val duration: Int,
+)
+
+data class Link(
+    val url: String,
+    val title: String,
+    val description: String,
+    val imageSrc: String,
+)
+
+data class Doc(
+    val id: Int,
+    val ownerId: Int,
+    val title: String,
+    val size: Int,
+    val ext: String,
+    val url: String,
+)
+
 data class Post(
     val id: Int = 1, //Идентификатор записи.
     val ownerId: Int = 54321, //Идентификатор владельца стены, на которой размещена запись.
-    val fromId: Int = 12345, //Идентификатор автора записи
+    val fromId: Int? = null, //Идентификатор автора записи
     val date: Int = 24, //Время публикации записи
-    val text: String = "", //Текст записи.
+    val text: String? = null, //Текст записи.
     val comment: Comments, // Информация о комментариях к записи, объект
     val likes: Likes, // Информация о лайках к записи, объект
     val reposts: Reposts, // Информация о репостах записи, объект
     val views: Views, // Информация о просмотрах записи, Объект
     val isPinned: Boolean = false, // Информация о том, что запись закреплена.
+    val attachments: List<Attachment> = emptyList() //список вложений
 )
 
 data class Comments(
@@ -37,7 +110,7 @@ data class Views(
     val count:Int = 15_000_242, // число просмотров записи
 )
 
-object WallService {
+class WallService {
     private var nextId = 1 // уникальный ID
     private var posts = emptyArray<Post>()
 
@@ -63,41 +136,5 @@ object WallService {
 }
 
 fun main() {
-    // Создание тестовых объектов для комментария, лайков, репостов и просмотров
-//    val comments = Comments(count = 10, canPost = true)
-//    val likes = Likes(count = 50, canLike = true)
-//    val reposts = Reposts(count = 20, userReposted = false)
-//    val views = Views(count = 100)
-//
-//    // Тестовая запись
-//    val testPost = Post(
-//        text = "Привет мир!",
-//        comment = comments,
-//        likes = likes,
-//        reposts = reposts,
-//        views = views
-//    )
-//
-//    println("До добавления:")
-//    println(WallService.getAllPosts().contentToString()) // Используем метод getAllPosts
-
-    // Добавление записи на стену
-//    val addedPost = WallService.add(testPost)
-//    println("\nПосле добавления (${addedPost.id})")
-//    println(WallService.getAllPosts().contentToString()) // Используем метод getAllPosts
-
-//    // Изменённая версия записи
-//    val updatedPost = addedPost.copy(text = "Изменённый текст", comment = comments, likes = likes, reposts = reposts, views = views)
-
-//    // Попытка обновления записи
-//    val resultUpdate = WallService.update(updatedPost)
-//    println("\nРезультат обновления: ${if(resultUpdate) "Успешно" else "Ошибка"}")
-//    println(WallService.getAllPosts().contentToString()) // Используем метод getAllPosts
-
-//    // Повторная попытка обновления несуществующего поста
-//    val nonExistentPost = Post(id = 999, text = "Несуществующая запись", comment = comments, likes = likes, reposts = reposts, views = views)
-//    val resultNonExistent = WallService.update(nonExistentPost)
-//    println("\nОбновление несуществующей записи: ${if(resultNonExistent) "Успешно" else "Ошибка"}")
-
 
 }

@@ -1,101 +1,84 @@
 package ru.netology
 
-import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Test
 
 class WallServiceTest {
 
     @Test
     fun addPost() {
-        // Создание тестовых объектов
-        val comments = Comments()
-        val likes = Likes()
-        val reposts = Reposts()
-        val views = Views()
-
-        // Тестовая запись
-        val testPost = Post(
-            text = "Привет мир!",
-            comment = comments,
-            likes = likes,
-            reposts = reposts,
-            views = views
+        val wallService = WallService()
+        val post = Post(
+            ownerId = 1,
+            text = "Test post",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views()
         )
-
-        // Добавление записи на стену
-        val addedPost = WallService.add(testPost)
-
-        // Проверка, что пост добавлен
-        assertNotNull(addedPost)
+        val addedPost = wallService.add(post)
         assertEquals(1, addedPost.id)
-        assertEquals("Привет мир!", addedPost.text)
+        assertEquals("Test post", addedPost.text)
     }
 
 //    @Test
 //    fun updateExistingPost() {
-//        // Создание тестовых объектов
-//        val comments = Comments()
-//        val likes = Likes()
-//        val reposts = Reposts()
-//        val views = Views()
-//
-//        // Добавление записи на стену
-//        val testPost = Post(
-//            text = "Привет мир!",
-//            comment = comments,
-//            likes = likes,
-//            reposts = reposts,
-//            views = views
+//        val wallService = WallService()
+//        val post = Post(
+//            ownerId = 1,
+//            text = "Test post",
+//            comment = Comments(),
+//            likes = Likes(),
+//            reposts = Reposts(),
+//            views = Views()
 //        )
-//        val addedPost = WallService.add(testPost)
-//
-//        // Обновление записи
-//        val updatedPost = addedPost.copy(text = "Обновленный текст")
-//        val resultUpdate = WallService.update(updatedPost)
-//
-//        // Проверка, что обновление прошло успешно
-//        assertTrue(resultUpdate)
-//        assertEquals("Обновленный текст", WallService.getAllPosts().first().text)
+//        val addedPost = wallService.add(post)
+//        val updatedPost = addedPost.copy(text = "Updated post")
+//        val result = wallService.update(updatedPost)
+//        assertTrue(result)
+//        assertEquals("Updated post", wallService.getAllPosts()[0].text)
 //    }
-//first()
+
     @Test
     fun updateNonExistingPost() {
-        // Создание тестовых объектов
-        val comments = Comments()
-        val likes = Likes()
-        val reposts = Reposts()
-        val views = Views()
-
-        // Несуществующая запись
-        val nonExistentPost = Post(id = 999, text = "Несуществующая запись", comment = comments, likes = likes, reposts = reposts, views = views)
-
-        // Попытка обновления несуществующего поста
-        val resultUpdate = WallService.update(nonExistentPost)
-
-        // Проверка, что обновление не прошло успешно
-        assertFalse(resultUpdate)
+        val wallService = WallService()
+        val post = Post(
+            id = 100,
+            ownerId = 1,
+            text = "Test post",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views()
+        )
+        val result = wallService.update(post)
+        assertFalse(result)
     }
 
     @Test
     fun getAllPosts() {
-        // Создание тестовых объектов
-        val comments = Comments()
-        val likes = Likes()
-        val reposts = Reposts()
-        val views = Views()
-
-        // Добавление нескольких записей на стену
-        //val post1 = Post(text = "Пост 1", comment = comments, likes = likes, reposts = reposts, views = views)
-        val post2 = Post(text = "Пост 2", comment = comments, likes = likes, reposts = reposts, views = views)
-       // WallService.add(post1)
-        WallService.add(post2)
-
-        // Получение всех постов
-        val allPosts = WallService.getAllPosts()
-
-        // Проверка, что все посты получены
-        assertEquals(2, allPosts.size)
-        //assertEquals("Пост 1", allPosts[0].text)
-        assertEquals("Пост 2", allPosts[1].text)
+        val wallService = WallService()
+        val post1 = Post(
+            ownerId = 1,
+            text = "Test post 1",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views()
+        )
+        val post2 = Post(
+            ownerId = 2,
+            text = "Test post 2",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views()
+        )
+        wallService.add(post1)
+        wallService.add(post2)
+        val posts = wallService.getAllPosts()
+        assertEquals(2, posts.size)
+        assertEquals("Test post 1", posts[0].text)
+        assertEquals("Test post 2", posts[1].text)
     }
 }
