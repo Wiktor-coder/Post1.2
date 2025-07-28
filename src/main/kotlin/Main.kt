@@ -1,38 +1,44 @@
 package ru.netology
 
-abstract class Attachment {
-    abstract val type: String
-}
+sealed class Attachment(val type: String)
+//abstract class Attachment {
+//    abstract val type: String
+//}
 
-data class PhotoAttachment(
-    val photo: Photo
-): Attachment() {
-    override val type = "Photo"
-}
+data class PhotoAttachment(val photo: Photo): Attachment("photo")
+//data class PhotoAttachment(
+//    val photo: Photo
+//): Attachment() {
+//    override val type = "Photo"
+//}
 
-data class VideoAttachment(
-    val video: Video
-) : Attachment() {
-    override val type = "video"
-}
+data class VideoAttachment(val video: Video) : Attachment("video")
+//data class VideoAttachment(
+//    val video: Video
+//) : Attachment() {
+//    override val type = "video"
+//}
 
-data class AudioAttachment(
-    val audio: Audio
-) : Attachment() {
-    override val type = "audio"
-}
+data class AudioAttachment(val audio: Audio): Attachment("audio")
+//data class AudioAttachment(
+//    val audio: Audio
+//) : Attachment() {
+//    override val type = "audio"
+//}
 
-data class LinkAttachment(
-    val link: Link
-): Attachment() {
-    override val type = "link"
-}
+data class LinkAttachment(val link: Link): Attachment("link")
+//data class LinkAttachment(
+//    val link: Link
+//): Attachment() {
+//    override val type = "link"
+//}
 
-data class DocAttachment(
-    val doc: Doc
-): Attachment() {
-    override val type = "Doc"
-}
+data class DocAttachment(val doc: Doc): Attachment("Doc")
+//data class DocAttachment(
+//    val doc: Doc
+//): Attachment() {
+//    override val type = "Doc"
+//}
 
 data class Photo(
     val id: Int,
