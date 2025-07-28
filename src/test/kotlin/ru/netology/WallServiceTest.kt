@@ -21,23 +21,23 @@ class WallServiceTest {
         assertEquals("Test post", addedPost.text)
     }
 
-//    @Test
-//    fun updateExistingPost() {
-//        val wallService = WallService()
-//        val post = Post(
-//            ownerId = 1,
-//            text = "Test post",
-//            comment = Comments(),
-//            likes = Likes(),
-//            reposts = Reposts(),
-//            views = Views()
-//        )
-//        val addedPost = wallService.add(post)
-//        val updatedPost = addedPost.copy(text = "Updated post")
-//        val result = wallService.update(updatedPost)
-//        assertTrue(result)
-//        assertEquals("Updated post", wallService.getAllPosts()[0].text)
-//    }
+    @Test
+    fun updateExistingPost() {
+        val wallService = WallService()
+        val post = Post(
+            ownerId = 1,
+            text = "Test post",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views()
+        )
+        val addedPost = wallService.add(post)
+        val updatedPost = addedPost.copy(text = "Updated post")
+        val result = wallService.update(updatedPost)
+        assertTrue(result)
+        assertEquals("Updated post", wallService.getAllPosts()[0].text)
+    }
 
     @Test
     fun updateNonExistingPost() {
