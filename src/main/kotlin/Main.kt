@@ -6,7 +6,7 @@ abstract class Attachment {
 
 data class PhotoAttachment(
     val photo: Photo
-): Attachment() {
+) : Attachment() {
     override val type = "Photo"
 }
 
@@ -24,13 +24,13 @@ data class AudioAttachment(
 
 data class LinkAttachment(
     val link: Link
-): Attachment() {
+) : Attachment() {
     override val type = "link"
 }
 
 data class DocAttachment(
     val doc: Doc
-): Attachment() {
+) : Attachment() {
     override val type = "Doc"
 }
 
@@ -108,7 +108,7 @@ data class Reposts(
 )
 
 data class Views(
-    val count:Int = 15_000_242, // число просмотров записи
+    val count: Int = 15_000_242, // число просмотров записи
 )
 
 class WallService {
@@ -120,6 +120,7 @@ class WallService {
         posts += newPost // добавляем в список
         return newPost // возвращаем обновленный пост
     }
+
     fun update(post: Post): Boolean {
         for ((index, existingPost) in posts.withIndex()) {
             if (existingPost.id == post.id) {
