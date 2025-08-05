@@ -87,6 +87,12 @@ data class Post(
     val attachments: List<Attachment> = emptyList() //список вложений
 )
 
+data class Comment(
+    val id: Int = 1, //Идентификатор записи.
+    val ownerId: Int = 1, //Идентификатор владельца стены, на которой размещена запись.
+    val text: String? = null, //Текст записи.
+)
+
 data class Comments(
     val count: Int = 4_568, // количество комментов
     val canPost: Boolean = true, // может ли пользователь комментировать
@@ -113,7 +119,8 @@ data class Views(
 
 class WallService {
     private var nextId = 1 // уникальный ID
-    private var posts = emptyArray<Post>()
+    private var posts = emptyArray<Post>() //массив постов
+    private var comments = emptyArray<Comment>() //массив комментариев
 
     fun add(post: Post): Post { // Метод для создания записи
         val newPost = post.copy(id = nextId++) // создаём копию поста с уникальным ID
@@ -131,11 +138,22 @@ class WallService {
         return false // Если пост с указанным id не найден, вернуть false
     }
 
+    fun createComment(postId: Int, comment: Comment): Comment {
+        val postExists = posts.any { it.id == postId } //проверяем существование поста
+        if (!postExists) {
+            throw PostNotFoundException("Поста под номером id: $postId, не существует")
+        }
+        comments += comment
+        return comment
+    }
+
     // Добавляем метод для получения всех постов
     fun getAllPosts(): Array<Post> {
         return posts
     }
 }
+
+class PostNotFoundException(message: String): RuntimeException(message)
 
 fun main() {
 
