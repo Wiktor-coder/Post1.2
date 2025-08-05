@@ -81,4 +81,62 @@ class WallServiceTest {
         assertEquals("Test post 1", posts[0].text)
         assertEquals("Test post 2", posts[1].text)
     }
+
+    //Тесты для комментариев
+    @Test
+    fun createCommentAddComment() {
+        val wallService = WallService()
+        val post1 = Post(
+            ownerId = 1,
+            text = "Test post 1",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views(),
+        )
+        wallService.add(post1)
+        val comment = Comment(id = 1, ownerId = 1, text = "Test comment")
+        val result = wallService.createComment(post1.id, comment)
+        assertEquals(comment, result)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun createCommentThrow() {
+        val wallService = WallService()
+        val post1 = Post(
+            ownerId = 1,
+            text = "Test post 1",
+            comment = Comments(),
+            likes = Likes(),
+            reposts = Reposts(),
+            views = Views(),
+        )
+        wallService.add(post1)
+        val testComment = Comment(id = 1, ownerId = 1, text = "Test comment")
+        wallService.createComment(999, testComment)
+    }
+
+    //Тесты для жалоб
+    @Test
+    fun reportCommentValid() {
+        val wallService = WallService()
+        wallService.reportComment(ownerId = 1, commentId = 1, reason = "Спам")
+        val reports = wallService.getAllReport()
+        assertEquals(1,reports.size)
+        assertEquals(1, reports[0].ownerId)
+        assertEquals(1, reports[0].commentId)
+        assertEquals("Спам", reports[0].reason)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun reportCommentInvalidCommentId() {
+        val wallService = WallService()
+        wallService.reportComment(ownerId = 1, commentId = -1, reason = "Спам")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun reportCommentBlankReason() {
+        val wallService = WallService()
+        wallService.reportComment(ownerId = 1, commentId = 1, reason = "")
+    }
 }
