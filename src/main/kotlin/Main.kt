@@ -5,7 +5,7 @@ sealed class Attachment(val type: String)
 //    abstract val type: String
 //}
 
-data class PhotoAttachment(val photo: Photo): Attachment("photo")
+data class PhotoAttachment(val photo: Photo) : Attachment("photo")
 //data class PhotoAttachment(
 //    val photo: Photo
 //): Attachment() {
@@ -19,21 +19,21 @@ data class VideoAttachment(val video: Video) : Attachment("video")
 //    override val type = "video"
 //}
 
-data class AudioAttachment(val audio: Audio): Attachment("audio")
+data class AudioAttachment(val audio: Audio) : Attachment("audio")
 //data class AudioAttachment(
 //    val audio: Audio
 //) : Attachment() {
 //    override val type = "audio"
 //}
 
-data class LinkAttachment(val link: Link): Attachment("link")
+data class LinkAttachment(val link: Link) : Attachment("link")
 //data class LinkAttachment(
 //    val link: Link
 //): Attachment() {
 //    override val type = "link"
 //}
 
-data class DocAttachment(val doc: Doc): Attachment("Doc")
+data class DocAttachment(val doc: Doc) : Attachment("Doc")
 //data class DocAttachment(
 //    val doc: Doc
 //): Attachment() {
@@ -110,9 +110,9 @@ data class Comments(
 
 //Жалобы
 data class Report(
-    val ownerId: Int = 1,
-    val commentId: Int = 1,
-    val reason: String = "",
+    val ownerId: Int = 1, //Идентификатор пользователя
+    val commentId: Int = 1, //Идентификатор комментария
+    val reason: String = "", //Жалоба
 )
 
 data class Likes(
@@ -128,7 +128,7 @@ data class Reposts(
 )
 
 data class Views(
-    val count:Int = 15_000_242, // число просмотров записи
+    val count: Int = 15_000_242, // число просмотров записи
 )
 
 class WallService {
@@ -143,6 +143,7 @@ class WallService {
         posts += newPost // добавляем в список
         return newPost // возвращаем обновленный пост
     }
+
     //Обновление поста
     fun update(post: Post): Boolean {
         for ((index, existingPost) in posts.withIndex()) {
@@ -164,6 +165,7 @@ class WallService {
         return comment
     }
 
+    //Добавление жалобы
     fun reportComment(ownerId: Int, commentId: Int, reason: String) {
         if (commentId <= 0) {
             throw IllegalArgumentException("Идентификатор комментария должен быть положительным.")
@@ -171,7 +173,8 @@ class WallService {
         if (reason.isBlank()) {
             throw IllegalArgumentException("Причина не должна быть пустой")
         }
-        reports.add(Report(ownerId = ownerId, commentId =commentId, reason = reason)
+        reports.add(
+            Report(ownerId = ownerId, commentId = commentId, reason = reason)
         )
     }
 
@@ -185,8 +188,9 @@ class WallService {
         return posts
     }
 }
+
 //Класс ошибки для комментариев
-class PostNotFoundException(message: String): RuntimeException(message)
+class PostNotFoundException(message: String) : RuntimeException(message)
 
 fun main() {
 

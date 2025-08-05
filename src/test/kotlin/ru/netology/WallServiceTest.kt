@@ -122,7 +122,7 @@ class WallServiceTest {
         val wallService = WallService()
         wallService.reportComment(ownerId = 1, commentId = 1, reason = "Спам")
         val reports = wallService.getAllReport()
-        assertEquals(1,reports.size)
+        assertEquals(1, reports.size)
         assertEquals(1, reports[0].ownerId)
         assertEquals(1, reports[0].commentId)
         assertEquals("Спам", reports[0].reason)
