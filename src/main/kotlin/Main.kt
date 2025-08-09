@@ -106,6 +106,7 @@ data class Comments(
     val groupsCanPost: Boolean = true, // могут ли сообщества комментировать запись
     val canClose: Boolean = false, //  может ли пользователь закрыть комментарии к записи
     val canOpen: Boolean = false, // может ли пользователь открыть комментарии к записи
+    val comment: Comment, // комментарий к комментарию
 )
 
 //Жалобы
